@@ -47,14 +47,14 @@ fn parse(input: &str) -> (Vec<i32>, Vec<i32>) {
     (left, right)
 }
 
-fn solve_a(columns: (Vec<i32>, Vec<i32>)) -> i32 {
+fn solve_a(columns: &(Vec<i32>, Vec<i32>)) -> i32 {
     let (left, right) = columns;
     left.iter()
         .enumerate()
         .fold(0, |acc, (i, x)| acc + (right.get(i).unwrap() - x).abs())
 }
 
-fn solve_b(columns: (Vec<i32>, Vec<i32>)) -> i32 {
+fn solve_b(columns: &(Vec<i32>, Vec<i32>)) -> i32 {
     let mut result = 0;
     let (left, right) = columns;
     let mut y = 0;
@@ -63,9 +63,9 @@ fn solve_b(columns: (Vec<i32>, Vec<i32>)) -> i32 {
             break;
         }
         let mut r = *right.get(y).unwrap();
-        while y < right.len() && r <= l {
-            if l == r {
-                result += l;
+        while y < right.len() && r <= *l {
+            if *l == r {
+                result += r;
             }
             y += 1;
             if y < right.len() {
@@ -79,7 +79,7 @@ pub fn run() -> (i32, i32) {
     let input = include_str!("input/d1.txt");
     // Map each line to an array of int
     let columns = parse(input);
-    let a = solve_a(columns.clone());
-    let b = solve_b(columns);
+    let a = solve_a(&columns);
+    let b = solve_b(&columns);
     (a, b)
 }
